@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "enterprise-doc-rag"
+version = "0.1.0"
+description = "Production-style Bilingual (Arabic/English) RAG Document Assistant with FastAPI and ChromaDB."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "python-multipart>=0.0.12",
+    "pydantic-settings>=2.6.0",
+    "pymupdf>=1.25.0",
+    "chromadb>=1.0.0",
+    "sentence-transformers>=3.3.0",
+    "google-genai>=1.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "httpx>=0.28.0",
+    "ruff>=0.8.0",
+]
+
+[tool.uv]
+managed = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rag_assistant"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
+markers = [
+    "slow: tests that download/load real ML models or contact external services",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
